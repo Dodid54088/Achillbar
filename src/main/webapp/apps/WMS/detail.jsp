@@ -27,7 +27,6 @@
             .tableout {
                 margin-right: 10px;
                 text-align: center;
-
             }
 
             .pageout {
@@ -39,24 +38,19 @@
                 width: 150px;
                 height: auto;
                 /* background: rgba(132, 115, 115, 0.4); */
-
-
                 color: #010201;
                 font-size: 28px;
                 text-align: center;
                 border-radius: 25px 25px 25px 25px;
                 background-color: rgb(243, 243, 243);
                 margin-bottom: 30px;
-
             }
 
             .tabside {
                 margin: 10px;
-
             }
         </style>
         <script>
-
         </script>
 
         <body>
@@ -568,7 +562,6 @@
                 let p_id = "";
                 //新增產品處出按鈕
                 $('#ok').click(function () {
-
                     let oid1 = $('.oid').attr('id');
                     let quantity1 = $('#qtnum').val();
                     console.log(oid1);
@@ -593,11 +586,7 @@
                             console.log(err);
                         }
                     })
-
-
-
                 })
-
                 //選擇產品後顯示產品資訊
                 $('.tdpro').click(function () {
                     let p_name = $(this).text()
@@ -605,11 +594,7 @@
                     // console.log(p_name)
                     $('#adddsp').text(p_name).css('color', 'blue')
                     $('.qw').css('width', '30px;').removeAttr('style').css('color', 'black')
-
                 })
-
-
-
                 //修改訂單產品資訊按鈕
                 $(".update-btn").click(function () {
                     //detailPK
@@ -635,9 +620,6 @@
                         }
                     })
                 })
-
-
-
                 //刪除按鈕
                 $('.del-btn').click(function () {
                     let pk = $(this).attr('id');
@@ -653,8 +635,6 @@
                         }
                     })
                 })
-
-
         // 按鈕顏色
         // ===========================================
             </script>

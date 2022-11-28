@@ -13,6 +13,8 @@
                 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
                     <c:set var="dataRoot" value="${pageContext.request.contextPath}/apps" />
                     <meta charset="UTF-8">
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>登入</title>
                     <meta http-equiv="X-UA-Compatible" content="IE=edge">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,7 +45,7 @@
                 <div class="card-header bg-dark text-white">登入</div>
                 <form:form method="POST" modelAttribute="loginBean">
                     <div class="card-body ">
-                      
+
                         <div class="row mb-3">
                             <label for="" class="input-group-text bg-dark text-light">信箱</label>
                             <form:input path="email" />
@@ -56,7 +58,8 @@
                             <form:errors path="password" cssClass="error" /><br>
                         </div>
                         <div class="row">
-                            <form:errors path="invalidCredentials" cssClass="error" style="padding:0 ; padding-left: 1px;"/>
+                            <form:errors path="invalidCredentials" cssClass="error"
+                                style="padding:0 ; padding-left: 1px;" />
                         </div>
                         <div class="row mb-3 gd">
                             <div class="col p-0">
@@ -87,7 +90,7 @@
                 <div class="modal-content">
                     <div class="modal-header bg-dark text-white">
                         <h2 class="modal-title" id="exampleModalLabel">登入資訊</h2>
-                        
+
                     </div>
                     <div class="modal-body text-center">
                         <h4 class="text-danger">${error}</h4>

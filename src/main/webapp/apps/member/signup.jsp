@@ -18,7 +18,7 @@
       <body>
         <jsp:include page="../layout/navbar.jsp"></jsp:include>
         <div class="container mt-2">
-          <div class="card w-100 w-md-50 m-auto">
+          <div class="card w-75 m-auto signcard">
             <div class="card-header bg-dark text-light">
               註冊會員
             </div>
@@ -27,53 +27,53 @@
                 <div class="text-center mb-3">
                   <img width="200px" id="previewImg" src="${contextRoot}/apps/images/membericon.png" alt="">
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="image" class="input-group-text bg-dark text-light">頭像</label>
-                  <input type="file" class="form-control-file" id="image" name="photo"
-                    value="${contextRoot}/apps/images/membericon.png">
+                <div class="mb-3">
+                  <label for="image" class="form-label">頭像</label>
+                  <input type="file" class="form-control" id="image" name="photo"
+                    value="${contextRoot}/apps/images/membericon.png" accept="image/*">
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="Name" class="input-group-text bg-dark text-light">姓名 </label>
-                  <input type="text" name="memberName" id="Name" required="required"
+                <div class="mb-3 ">
+                  <label for="Name" class="form-label ">姓名 </label><span style="color: red;">*</span>
+                  <input type="text" class="form-control" name="memberName" id="Name" required="required"
                     pattern="^[A-Za-z0-9\u4e00-\u9fa5]+$" placeholder="不可使用特殊字符">
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="pswd" class="input-group-text bg-dark text-light">密碼</label>
-                  <input id="pswd" name="password" type="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$"
-                    required="required" oninput="setCustomValidity('');"
-                    oninvalid="setCustomValidity('請輸入正確的密碼格式:含大小英文、數，長度6~16個字元');" placeholder="含大小英文、數，長度6~16個字元" />
+                <div class="mb-3 ">
+                  <label for="pswd" class="form-label">密碼</label><span style="color: red;">*</span>
+                  <input id="pswd" name="password" class="form-control" type="password"
+                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$" required="required"
+                    oninput="setCustomValidity('');" oninvalid="setCustomValidity('請輸入正確的密碼格式:含大小英文、數，長度6~16個字元');"
+                    placeholder="含大小英文、數，長度6~16個字元" />
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="ConfirmPassword" class="input-group-text bg-dark text-light">確認密碼</label>
-                  <input name="ConfirmPassword" id="ConfirmPassword" placeholder="確認密碼" type="password"
-                    required="required" oninput="setCustomValidity('');"
-                    onchange="if(document.getElementById('pswd').value != document.getElementById('ConfirmPassword').value){setCustomValidity('密碼不吻合');}" />
+                <label for="email" class="form-label">電子信箱</label><span style="color: red;">*</span>
+                <div class="input-group mb-3">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="電子郵件地址">
+                  <button class="btn btn-dark " type="button" id="emailcheckbtn">檢查信箱</button>
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="sex" class="input-group-text bg-dark text-light">性別</label>
-                  <select name="sex" id="sex">
+                <div class="mb-3">
+                  <span id="emailCheck"></span>
+                </div>
+
+                <div class=" mb-3 ">
+                  <label for="sex" class="form-label">性別</label>
+                  <select name="sex" id="sex" class="form-control">
                     <option value="M">男</option>
                     <option value="F">女</option>
                     <option value="N" selected>不便透露</option>
                   </select>
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="phoneNum" class="input-group-text bg-dark text-light">手機</label>
-                  <input type="text" name="phone" id="phoneNum" required="required" maxlength="11"
+                <div class="mb-3">
+                  <label for="phoneNum" class="form-label">手機</label><span style="color: red;">*</span>
+                  <input type="text" class="form-control" name="phone" id="phoneNum" required="required" maxlength="11"
                     pattern="09\d{2}-\d{6}" placeholder="09xx-xxxxxx" oninput="setCustomValidity('');"
                     oninvalid="setCustomValidity('請輸入正確的手機號瑪格式:09xx-xxxxxx');" />
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="email" class="input-group-text bg-dark text-light">電子信箱</label>
-                  <input type="email" name="email" id="email" placeholder="電子郵件地址">
-                  <span id="emailCheck"></span>
+
+                <div class=" mb-3">
+                  <label for="birthday" class="form-label">生日</label><span style="color: red;">*</span>
+                  <input type="date" class="form-control" name="birthday" id="birthday" required="required"
+                    min="1900-01-01" max="2004-12-31">
                 </div>
-                <div class="form-group mb-3 row">
-                  <label for="birthday" class="input-group-text bg-dark text-light">生日</label>
-                  <input type="date" name="birthday" id="birthday" required="required" min="1900-01-01"
-                    max="2004-12-31">
-                </div>
-                <div class="form-group mb-3">
+                <div class=" mb-3">
                   <input type="submit" class="btn btn-dark" id="signup" value="註冊" disabled>
                   <a type="button" class="btn btn-dark" href="${contextRoot}/member/login">已有會員</a>
                 </div>
@@ -99,7 +99,7 @@
           }
 
           //信箱檢查
-          $("#email").blur(function () {
+          $("#emailcheckbtn").click(function () {
             let emailText = $('#email').val();
             $.ajax({
               url: '/checkemail',
@@ -107,20 +107,37 @@
               method: 'get',
               data: { "email": emailText },
               success: function (result) {
-                if (result != null) {
+                if (result == 'OK') {
+                  $('#signup').removeAttr('disabled');
+                  $('#email').attr('readonly', 'readonly')
+                  $('#emailCheck').empty();
+                  $('#emailcheckbtn').text('OK').removeClass('btn-dark').addClass('btn-success').attr('disabled', 'disabled');
+                } else {
+
                   $('#emailCheck').text(result).css('color', 'red');
-                  if (result == 'OK') {
-                    $('#emailCheck').text(result).css('color', "green");
-                    $('#signup').removeAttr('disabled');
-                  } else {
-                    $('#signup').attr('disabled', 'disabled');
-                  }
                 }
+
               }
             })
           });
+          // 視窗大小參數
+          const md = '768';
+          const lg = '992';
+          const sm = '576';
+          //// 視窗監聽調整註冊card版面
 
-
+          function checklistbtn() {
+            var wWidth = $(window).width();
+            if (wWidth >= md) {
+              // console.log('hi');
+              $('.signcard').removeClass('w-100')
+              $('.signcard').addClass('w-75');
+            } else {
+              $('.signcard').removeClass('w-75');
+              $('.signcard').addClass('w-100');
+            }
+          }
+          $(window).resize(checklistbtn);
         </script>
       </body>
 

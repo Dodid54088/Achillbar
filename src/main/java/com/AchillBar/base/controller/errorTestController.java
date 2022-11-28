@@ -10,7 +10,7 @@ public class errorTestController {
     @GetMapping("/testError/{id}")
     public String Error(@PathVariable("id") Integer id) {
         int a =10/0;
-        return "123";
+        return "";
         
     }
 }

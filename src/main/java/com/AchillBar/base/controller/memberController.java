@@ -165,5 +165,4 @@ public class memberController {
 		return "member/updateSuccess.jsp";
 	}
 	
-	
 }

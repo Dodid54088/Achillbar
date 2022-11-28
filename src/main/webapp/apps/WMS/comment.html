@@ -8,7 +8,7 @@
     <title>ACB-評論管理</title>
 
 
-    
+
     <link rel="stylesheet" href="/apps/menu/styles/navAndBg.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <!-- datatable連結  -->
@@ -21,6 +21,44 @@
     <link rel="stylesheet" href=\apps\WMS\css\product_style.css>
 
 </head>
+<style>
+    .pagebtn {
+        margin: 0 auto;
+        /* width: 30px; */
+        border-radius: 10px;
+        padding: 0.5rem 1rem;
+        text-align: center;
+
+    }
+
+    #pageOut {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    #page-container {
+        margin: 0 auto;
+    }
+
+    .pagebtn:hover {
+        background-color: rgb(228, 204, 96);
+
+    }
+
+    .pagebtn.active {
+        background-color: rgb(230, 201, 76);
+
+    }
+
+    .search {
+        border: 1px solid #aaa;
+        border-radius: 3px;
+        padding: 5px;
+        background-color: transparent;
+        margin-left: 3px;
+    }
+</style>
 
 <body>
 
@@ -39,8 +77,15 @@
             <div class="pageout">
                 <div class="page">評論管理</div>
             </div>
+            <div style="text-align:end ; margin-top: 4.5%; margin-right: 1%;">
 
-            <table id="table_id" class="display responsive nowrap" style="width:100%">
+                <label>
+                    搜尋:<input type="search" id="search">
+                </label>
+            </div>
+
+
+            <table id="table_id" class="table" style="">
                 <thead class="" style=>
                     <!-- 欄位標題 -->
                     <tr>
@@ -51,15 +96,24 @@
                         <th>更改日期</th>
                         <th>評分</th>
                         <th>留言內容</th>
-                        <th></th>
+
                     </tr>
                 </thead>
-                <tbody class="productList" id="">
+                <tbody class="productList" id="comment-box">
                     <!-- 欄位內容 -->
 
                 </tbody>
             </table>
 
+            <div class="order-page">
+                <div class="container" id="">
+                </div>
+            </div>
+            <div id="pageOut">
+                <div id="page-container" style="color: black;">
+                </div>
+
+            </div>
 
         </div>
     </div>
@@ -83,95 +137,182 @@
 
     <script>
 
-$('.cm').css('background-color', '#adadad')
-        // datetable
-        $(document).ready(function () {
+        // =========================列出所有訂單======
+        $.ajax({
+            url: '/comment/page?p=1',
+            contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
+            method: 'get',
+            dataType: 'json', // 回傳的資料型別
+            success: function (result) {
 
-            $('#table_id').DataTable({
+                console.log(result);
+                showorder(result);
+                showPage(result);
 
-                "ajax": '/comment/findAllcomment', //抓api url
-                "columns": [
-                    { data: 'com_id', title: "留言編號" },
-                    { data: 'm_id', title: "會員編號", },
-                    { data: 'p_id', title: "菜單編號" },
-                    { data: 'createDate', title: "上傳日期" },
-                    { data: 'updateDate', title: "更改日期" },
-                    { data: 'score', title: "評分" },
-                    
-                    
-//                     { data: 'comment', title: '留言內容' },
-                      {
-                        data: null, title: "留言內容",
-                        className:"m-auto",
-                        render: function (data, type, row) {
-                            return '<div class="text-center" style="white-space: normal !important; width:100%">'+row.comment+'</div> '
-                        },
-                    },
-                    
-                    
-                    {
-                        data: null, title: "",
-                        render: function (data, type, row) {
-                            return '<button class="delete btn btn-secondary btn-xs" Id="' + row.com_id + '">刪除</button> '
-                        },
-                    },
-                ],
-                columnDefs: [
-                    {
-                        orderable: false,
-                        targets: [7],
-                        
-                    },
-                    {
-                   
-                        targets: [6],
-                        
-                    },  
-                ],
-                //搜尋功能
-                "searching": true,
-                //每頁幾筆
-                "lengthMenu": [10, 15, 20],
-                language: {
-                         url: "//cdn.datatables.net/plug-ins/1.12.1/i18n/zh-HANT.json",
-                          },
-
-
-            });
-
-
-        });
-
-        // 初始化刪除按钮  
-        $('#table_id tbody').on('click', 'button.delete', function (e) {
-            e.preventDefault();
-
-            if (confirm("確定要刪除該筆評論資料?")) {
-                let com_id = $(this).attr("id");
-                $.ajax({
-                    url: '/bak/comment/delete/' + com_id,
-                    contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
-                    method: 'get',
-                    success: function (result) {
-                        alert(result);
-                        window.location.reload();
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                })
+            },
+            error: function (err) {
+                console.log(err)
             }
+        })
 
+        // =========================頁數資料======
+        function page(pageNum) {
+            $(".pagebtn").removeClass("active");
+            $(".pagebtn").eq(pageNum - 1).addClass("active");
+            $.ajax({
+                url: '/comment/page?p=' + pageNum,
+                contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
+                method: 'get',
+                dataType: 'json', // 回傳的資料型別
+                success: function (result) {
+                    showorder(result);
+                },
+                error: function (err) {
+                }
+            })
+        }
+
+
+        function showorder(json) {
+            $("#comment-box").empty();
+            // console.log(json)
+            for (let i = 0; i < json.content.length; i++) {
+                let date;
+                if (`${json.content[i].updateDate}` == `null`) {
+                    date = "沒有更新";
+                    // console.log(`${json.content[i].updateDate}`.replace(`null`, '沒有更新'));
+                } else {
+                    date = `${json.content[i].updateDate}`;
+                }
+
+                $("#comment-box").append(
+                    `<tr>
+                                        <td>${json.content[i].com_id}</td>
+                                        <td>${json.content[i].m_id}</td>
+                                        <td>${json.content[i].p_id}</td>
+                                        <td>${json.content[i].createDate}</td>
+                                        <td>${date}</td>
+                                        <td>${json.content[i].score}</td>
+                                        <td >${json.content[i].comment}</td>
+                                        
+                                        <td>
+                                         
+                                            <button class="btn btn-secondary del-btn"   href="/bak/comment/delete/${json.content[i].com_id}>刪除</button>
+                                        </td>
+                                        
+                                    </tr>`
+
+                )
+
+
+
+            }
+        };
+
+        function showPage(json) {
+            for (let i = 1; i <= json.totalPages; i++)
+                $("#page-container").append(`
+                    
+                    <button class="pagebtn" onclick="page(${i})">${i}</button> 
+                    `)
+            $(".pagebtn").eq(0).addClass("active");
+
+
+
+        };
+
+        $("#comSubmit").on("click", function () {
+            submitcheck();
+
+        })
+        $("#search").bind("input propertychange", function (event) {
+            search($("#search").val());
         });
+        function search(key) {
+            console.log(key);
+            $.ajax({
+                url: '/comment/findAllLike/1/' + key,
+                contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
+                method: 'get',
+                dataType: 'json', // 回傳的資料型別
+                success: function (result) {
+                    showsearch(result);
+                    nobtn(result);
+                },
+                error: function (err) {
+
+                }
+            })
+        };
+
+        function showsearch(json) {
+            $("#comment-box").empty();
+            console.log(json)
+            for (let i = 0; i < json.content.length; i++) {
+                let date;
+                if (`${json.content[i].updateDate}` == `null`) {
+                    date = "沒有更新";
+                } else {
+                    date = `${json.content[i].updateDate}`;
+                }
+
+                $("#comment-box").append(
+                    `<tr>
+                                        <td>${json.content[i].com_id}</td>
+                                        <td>${json.content[i].m_id}</td>
+                                        <td>${json.content[i].p_id}</td>
+                                        <td>${json.content[i].createDate}</td>
+                                        <td>${date}</td>
+                                        <td>${json.content[i].score}</td>
+                                        <td >${json.content[i].comment}</td>
+                                        
+                                        <td>
+                                         
+                                            <button class="btn btn-secondary del-btn"   href="/bak/comment/delete/${json.content[i].com_id}>刪除</button>
+                                        </td>
+                                        
+                                    </tr>`
+
+                )
 
 
 
+            }
+        };
+        function nobtn(json) {
+            $("#page-container").empty();
+            for (let i = 1; i <= json.totalPages; i++)
+                $("#page-container").append(`
+
+                    <button class="pagebtn" onclick="SP(${i})">${i}</button> 
+                    `)
+            $(".pagebtn").eq(0).addClass("active");
+            $("#page-container").append(`
+                    
+                    <button class="pagebtn" onclick="location.reload()">查看所有留言</button> 
+                    `)
+        }
+        function SP(pageNum) {
+            $(".pagebtn").removeClass("active");
+            $(".pagebtn").eq(pageNum - 1).addClass("active");
+            key = $("#search").val();
+            $.ajax({
+                url: '/comment/findAllLike/' + pageNum + '/' + key,
+                contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
+                method: 'get',
+                dataType: 'json', // 回傳的資料型別
+                success: function (result) {
+                    showsearch(result);
+                },
+                error: function (err) {
+                }
+            })
+        }
 
 
 
 
     </script>
-
 
 </body>
 

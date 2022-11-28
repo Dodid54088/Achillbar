@@ -74,7 +74,7 @@
 							<div class="tab-pane fade show active" id="userInfo" role="tabpanel"
 								aria-labelledby="list-userInfo-list">
 								<div class="container mt-2">
-									<div class="card w-sm-50 m-auto">
+									<div class="card w-100 m-auto">
 										<div class="card-header bg-dark text-light">
 											會員資料
 										</div>
@@ -184,7 +184,7 @@
 							</div>
 
 						</div>
-						<div class="list-group text-center col-2 " id="list-tab-1" role="tabpanel" height="100vh" >
+						<div class="list-group text-center col-2 " id="list-tab-1" role="tabpanel" height="100vh">
 							<a href="#" class="list-group-item list-group-item-dark ">功能列表</a>
 							<hr>
 							<a type="button" class=" list-group-item 

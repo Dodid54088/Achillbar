@@ -88,13 +88,13 @@ function getInfoFromServer() {
 
 }
 // 桌號轉桌名
-let tableTran=(tableNum)=>{
-    if(tableNum<=10){
-        return "A"+tableNum;
-    }else if(tableNum<13){
-        return "B"+(tableNum-10);
-    }else if(tableNum<19){
-        return "C"+(tableNum-12);
+let tableTran = (tableNum) => {
+    if (tableNum <= 10) {
+        return "A" + tableNum;
+    } else if (tableNum < 13) {
+        return "B" + (tableNum - 10);
+    } else if (tableNum < 19) {
+        return "C" + (tableNum - 12);
     }
 }
 
@@ -102,7 +102,7 @@ let tableTran=(tableNum)=>{
 
 //////顯示訂單資訊//////////////////
 function appendOrder1(bookList) {
-    bookList.forEach((book)=>{ 
+    bookList.forEach((book) => {
         let total = 0;
         let str = `
              <div class="book-card" id="b${book.b_id}">
@@ -228,6 +228,7 @@ function submitComm(id, score, text) {
         }
     })
 
+
 }
 
 // 點擊出現細節
@@ -235,11 +236,11 @@ function binding() {
 
     $(".book-card").off("click", bi1);
     $(".book-card").on("click", bi1);
-    
+
 
     function bi1() {
         $(this).addClass("active");
-        if($(".back-back.hbg").length==0){
+        if ($(".back-back.hbg").length == 0) {
             $("body").append(`<div class="back-back hbg" style="height:100vh;width:100vw; z-index:4;position:fixed;top:0;left:0;"></div>`);
             $("body,html").addClass("closeScroll");
 
@@ -249,10 +250,10 @@ function binding() {
             $("body,html").removeClass("closeScroll");
             $(".back-back").remove();
         })
-        
+
     }
-    
-}    
+
+}
 
 
 

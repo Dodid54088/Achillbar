@@ -1,14 +1,20 @@
 package com.AchillBar.base.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.AchillBar.base.model.Booking;
 import com.AchillBar.base.model.dao.BookingDao;
 import com.AchillBar.base.model.dao.OrderDao;
 import com.AchillBar.base.model.dao.OrderDetailDao;
 import com.AchillBar.base.model.dao.ProductDao;
+import com.AchillBar.base.service.bookingService;
 
 @Controller
 public class pageController {
@@ -23,6 +29,8 @@ public class pageController {
 	BookingDao bDao;
 	@Autowired
 	ProductDao pDao;
+	@Autowired
+	bookingService bService;
 
 	@GetMapping("/")
 	public String homePage() {
@@ -74,6 +82,7 @@ public class pageController {
 		return "WMS/Manger.html";
 	}
 
+
 	@GetMapping("/bak/pastorder")
 	public String pastorder() {
 		return "WMS/pastorder.html";
@@ -94,5 +103,14 @@ public class pageController {
 	public String bookingFormember() {
 		return "/WMS/booking.html";
 	}
-
+	@ResponseBody
+	@GetMapping("/findname/{pageNumber}/{name}")
+	public Page<Booking> findByName(@PathVariable String name,@PathVariable Integer pageNumber ){
+	    return bService.findBynamePage(name,pageNumber);
+	}
+	   @ResponseBody
+	    @GetMapping("/findname/{pageNumber}/")
+	    public Page<Booking> findByName(@PathVariable Integer pageNumber ){
+	        return bService.findByPage(pageNumber);
+	    }
 }

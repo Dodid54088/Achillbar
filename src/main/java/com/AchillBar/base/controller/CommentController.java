@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
@@ -30,12 +33,12 @@ public class CommentController {
 
     @Autowired
     private CommentService cService;
-
     @Autowired
     private JavaMailSender mailSender;
 
     @Autowired
     CommentDao cDao;
+    
 
     @GetMapping("/p/{p_id}")
     public List<Comment> findByPid(@PathVariable Integer p_id) {
@@ -113,7 +116,7 @@ public class CommentController {
         return res;
     }
 
-    @PostMapping("/sendEmail")
+   @PostMapping("/sendEmail")
     public String sendEmail(@RequestBody Comment comm, Model model) {
         memberModel mb = (memberModel) model.getAttribute("LoginOK");
         Integer m_id = mb.getM_id();
@@ -129,7 +132,7 @@ public class CommentController {
         } else {
             p_id = comm.getP_id();
             date = outputSimpleDateFormat.format(new Date());
-
+            
         }
         // 將亂數字串寄出
         SimpleMailMessage message = new SimpleMailMessage();
@@ -138,18 +141,37 @@ public class CommentController {
         // 設定收件人
         message.setTo("zxc124236571@gmail.com");
         // 設定信件主旨
-        message.setSubject("會員:" + m_id + "對產品:" + p_id + "時間:" + date + "留言");
+        message.setSubject("會員:"+m_id+"對產品:"+p_id+"時間:"+date+"留言");
         // 設定信件內容
         message.setText("內容:" + text);
-        try {
-            mailSender.send(message);
-            System.out.println("信件送出");
-            return "信件送出";
-        } catch (Exception e) {
-            System.out.println("信件送出失敗");
-            System.out.println(e.getMessage());
-            return e.getMessage();
-        }
+            try {
+                mailSender.send(message);
+                System.out.println("信件送出");
+                return "信件送出";
+            } catch (Exception e) {
+                System.out.println("信件送出失敗");
+                System.out.println(e.getMessage());
+                return e.getMessage();
+            }
+}
+
+    @GetMapping("/page")
+    public Page<Comment>  orderpage(@RequestParam(name="p",defaultValue = "1")Integer pageNumber,Model model){
+        Page<Comment> page =cService.findByPage(pageNumber);
+        return page;
 
     }
+    @GetMapping("/findAllLike/{pageNumber}/{key}")
+    public Page<Comment> findByNameLike(@PathVariable String key,@PathVariable Integer pageNumber) {
+        Page<Comment> page = cService.findByCommentLike("%"+key+"%",pageNumber);
+        return page;
+    }
+    @GetMapping("/findAllLike/{pageNumber}/")
+   public Page<Comment> findByEmpty(@PathVariable Integer pageNumber) {
+        Page<Comment> page = cService.findByCommentLike("",pageNumber);
+        return page;
+       
+            
+    }
+
 }

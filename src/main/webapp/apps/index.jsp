@@ -8,6 +8,8 @@
 
         <head>
             <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>首頁</title>
             <link rel="stylesheet" href="${contextRoot}/css/style.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
@@ -35,13 +37,17 @@
                 <h2 class="animate__animated animate__fadeInLeft animate__slower	2s">18:00~24:00完全預約制</h2>
             </div>
 
-
             <!-- 介紹 -->
             <div class=" bg-balck text-white text-center p-5" style="background-color :black">
                 <section class="container-fluid">
                     <h1>關於A Chill Bar</h1>
                     <p>近年來在台灣品酒這件事變得非常盛行，但受到疫情的影響，越來越多餐酒館及酒吧陸陸續續的倒閉，<br>隨著政府的政策轉彎，疫情逐漸趨緩，毅然決然決定完成我兒時的夢想，打造一個有造型景觀的餐酒館，<br>風格與chill這句英文互相輝映，來這的客人就是以放鬆為基本，歡笑為輔，忘掉一切的不開心。
                     </p>
+
+
+                    <p>營業時間: Mon~ Sat 20:00~24:00</p>
+                    <p>地址: 台南成功大學</p>
+                    <p>聯絡資訊: 06-xxxxxxxx</p>
                 </section>
 
 
@@ -71,7 +77,8 @@
                                     10.如客人覺得服務品質滿意，請不要吝嗇您的誇讚，也謝謝您蒞臨本小店。 <br>
                                 </p>
                                 <p class="card-text">立即加入會員已享有優惠服務</p>
-                                <a href="${pageContext.request.contextPath}/member/signup" class="btn btn-primary">加入會員</a>
+                                <a href="${pageContext.request.contextPath}/member/signup"
+                                    class="btn btn-primary">加入會員</a>
                             </div>
 
                         </div>
@@ -85,7 +92,7 @@
                     style="overflow: clip; width:1920px;">
                 <div class="card-img-overlay text-center p-0 ">
                     <div class="row h-100">
-                        
+
                         <div class="col-6"></div>
                         <div class="col-lg-6 h-100 d-flex align-items-center bg-dark bb1"
                             style="--bs-bg-opacity: .5; backdrop-filter: blur(5px)">
@@ -107,7 +114,7 @@
                     style="overflow: clip; width: 1920px;">
                 <div class="card-img-overlay text-center p-0 ">
                     <div class="row h-100">
-                        
+
                         <div class="col-lg-6 h-100 d-flex align-items-center bg-dark bb1"
                             style="--bs-bg-opacity: .5; backdrop-filter: blur(5px)">
                             <div class="wrap w-100">

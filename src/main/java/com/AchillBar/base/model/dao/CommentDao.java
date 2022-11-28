@@ -1,7 +1,10 @@
 package com.AchillBar.base.model.dao;
 
+
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +27,7 @@ public interface CommentDao extends JpaRepository<Comment, Long> {
     @Modifying
     @Query("delete from Comment where com_id=?1")
     public void deleteById(Long com_id);
+    
+//    @Query(value = "from Comment  where comment like %?1%")
+    public Page<Comment> findByCommentLike(String key,Pageable pageable);
 }

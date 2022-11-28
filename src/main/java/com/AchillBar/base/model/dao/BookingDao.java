@@ -75,4 +75,20 @@ public interface BookingDao extends JpaRepository<Booking, Long> {
 
         @Query(value = "from Booking b inner join b.order o where b.status=3 and b.b_id=o.b_id")
         public Page<Booking> pastorder(Pageable pageable);
+        
+        @Query(value = " select BookDate  "
+                + " from  Booking b join [Order] o"
+                +" on b.b_id=o.b_id "
+                +" where status<3 "
+                + " group by bookDate ", nativeQuery = true)
+        public List<Map<String, Date>> groupbybookdate();
+        
+        @Query("from Booking  where bookDate= ?1 ")
+        public List<Booking> findbydate(Date date);
+        
+        @Query(value=" select b from Booking b inner join b.member m  where m_name like %?1% and status =3 ")
+        public Page<Booking> findnameLike(String name,Pageable pageable);
+
+       
+        
 }

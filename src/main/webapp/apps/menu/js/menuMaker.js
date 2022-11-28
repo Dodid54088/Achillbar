@@ -147,6 +147,9 @@ let menuMaker = function (file, menuName) {
         let p_id = file[num].p_id;
         let score = file[num].score;
         score == null ? score = "?.?" : "";
+        setTimeout(function () {
+
+        }, 3000)
         $(`#${sectionID}`).find(`.menu-cardBox`).append(`                                    
     <div
   class="container-fluid menu-card bg-opacity-10 overflow-hidden my-1 gx-0 p-2 row-lg " pId="${p_id}">
@@ -248,14 +251,14 @@ $.ajax({
     }
 })
 
-let hideLoad=function(){
+let hideLoad = function () {
     $("body").removeClass("closeScroll");
     $("#loadingPage").hide();
     $(".bigImg").addClass("anima2")
     $(".menu-card").addClass("anima1")
 
 }
-let showLoad=function(){
+let showLoad = function () {
 
     $("#loadingPage").show();
     $("body").addClass("closeScroll");
@@ -275,7 +278,7 @@ function app1(json) {
             menuMaker(json[key], json[key][0].type);
         }
     }
-    
+
     hideLoad();
     // getAllTag();
     startXXX();
@@ -295,8 +298,8 @@ function startXXX() {
     $(".menu-card").on('mouseenter', function () {
         let img = $(this).find(".cardImg").attr('src');
         $(this).parent().parent().find(".bigImg").attr('src', img);
-        
-        
+
+
     });
 
     $(".menu-card").on("touchstart", function () {
@@ -710,7 +713,6 @@ function getBooking() {
             }
         },
         error: function (err) {
-            
         }
     })
 
@@ -815,13 +817,13 @@ function getMenuByTag() {
         $(`.menuBox`).empty();
         showLoad();
         app1(menuJson);
-        setTimeout(hideLoad,2000);
+        setTimeout(hideLoad, 2000);
         return null;
 
     }
     let data = JSON.stringify(f22);
     console.log("f22" + data)
-    
+
     $.ajax({
         url: 'menu/tags',
         contentType: 'application/json; chartset=UTF-8',  // 送過去的格式

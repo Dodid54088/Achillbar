@@ -30,9 +30,9 @@
 <style>
     .page {
 
-        margin-left: 5.5vh;
+
         margin-top: 15px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         color: #010201;
         font-size: 21px;
         text-align: center;
@@ -97,9 +97,17 @@
                 <div style="width: 130px; margin-left: 10px;" class="page"><a style="color: black;"
                         href="/bak/pastorder">過往訂單</a></div>
 
+
+            </div>
+            <div class="">
+                <select id="selectdate" class="form-select form-select-sm " aria-label=".form-select-sm example"
+                    style="width: 200px; ;height: 30px; margin: auto; margin-bottom: 8px;">
+                    <option>請選擇日期</option>
+                </select>
+
             </div>
 
-            <div class="order-page">
+            <div class="order-page ">
                 <div class="container" id="order-box">
 
                 </div>
@@ -143,6 +151,112 @@
                 })
             }
             ////////////////////////////////////////////////////////////////////////////////////////////// 
+
+            // group bybooking date選日期
+            $.ajax({
+                url: '/bak/order/groupbyBookDate',
+                contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
+                method: 'get',
+                dataType: 'json', // 回傳的資料型別
+                success: function (result) {
+                    console.log(result);
+                    selectbkdatee(result);
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
+
+            function selectbkdatee(json) {
+                // $('#selectdate').empty()
+                for (let i = 0; i < json.length; i++) {
+                    $('#selectdate').append(`
+                    <option id="SD">${json[i].BookDate}</option>
+                    `)
+                }
+                //監聽下拉選單
+                $('#selectdate').on("change", function () {
+                    if ($(this).val() == "請選擇日期") {
+                        location.reload();
+                    }
+                    ShoworderDate($(this).val());
+                })
+            }
+
+
+            //請求bookByDate相關資料
+            function ShoworderDate(BookDate) {
+                $.ajax({
+                    url: '/bak/order/findbyBookDate/' + BookDate,
+                    contentType: 'application/json; chartset=UTF-8',  // 送過去的格式
+                    method: 'get',
+                    dataType: 'json', // 回傳的資料型別
+                    success: function (result) {
+                        console.log(result);
+                        orderDate(result);
+                        $("#page-container").empty();
+                        showPage(result);
+
+                    },
+                    error: function (err) {
+                        console.log(err)
+                    }
+                })
+            }
+
+            function orderDate(json) {
+                $("#order-box").empty();
+                for (let i = 0; i < json.length; i++) {
+                    for (let j = 0; j < json[i].order.length; j++) {
+                        $("#order-box").append(
+                            `<div class="container ">
+                            <div class="card mb-3">
+                                <div class="card-header bg-dark text-white">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            訂單編號:${json[i].order[j].o_id}
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-4 text-end">
+                                            <button type="button"  style="      background-color: rgb(197, 35, 35);"  class="btn" onclick="return confirm('確定刪除?')">
+                                                <a style="color:white" href="/bak/order/deleteorder/${json[i].order[j].o_id}">刪除</a>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body"> 
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>  訂位時間 :${json[i].bookDate}</h6>
+                                            <h6>  聯絡手機 :${json[i].phoneNum}  
+                                                <button type="button" class="btn btn-primary" style=" ;float:right; ">
+                                                <a style="color:white; " href="/bak/order/findOrderDteails/${json[i].order[j].o_id}">訂單明細</a>  </button>
+                                            </h6>
+
+                                        <h6>  訂位人:${json[i].member.memberName}  </h6>
+
+                                        <h6>  桌號 :${json[i].tableNum}    
+                                            <button style="float:right;  " class="btn btn-primary" id="submitcheck">
+                                            <a href="/bak/order/BookingChecked/${json[i].b_id}"  style="color:White"> 完成訂單</a></button>
+                                            </h6>
+                                            <div style="float:right;   margin-right: 2%;" >
+                                                <h6>  總計 :${json[i].order[j].total} </h6>
+                                                </div>
+                                        <h6>  人數 :${json[i].numOfPpl} </h6>
+                                     
+                                    </div>                     
+                                   
+                                </div>  
+                                </div>    
+                            </div>
+                        </div>
+                        
+                        `)
+
+
+                    }
+                }
+            };
 
 
 
@@ -242,7 +356,7 @@
 
                 }
             };
-            var pageSize = json.pageable.pageSize;
+
             function showPage(json) {
 
                 for (let i = 1; i <= json.totalPages; i++)

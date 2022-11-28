@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,12 +32,10 @@ public class BakMemberCotroller {
 
 
     //只找客戶會員名單
-	@GetMapping("/findAllmember")
-	public Map<String, List<memberModel>> findAllMember() {
-		List<memberModel> memberList = mService.findAllCustomer();
-	    HashMap<String, List<memberModel>> res = new HashMap<>();
-	    res.put("data", memberList);
-	    return res;
+	@GetMapping("/findAllmember/{pageNumber}")
+	public Page<memberModel> findAllMember(@PathVariable Integer pageNumber) {
+		Page<memberModel> memberList = mService.findAllCustomer(pageNumber);
+	    return memberList;
 	}
 	
 	//刪除後臺管理會員

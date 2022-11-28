@@ -43,6 +43,16 @@
 }
 
 
+<<<<<<< HEAD
+@media screen and (max-width: 500px) {
+    img.bg {
+        left: 50%;
+        margin-left: -500px;
+    }
+
+}
+=======
+>>>>>>> e37eadeea06fdacf338cb2f23eccb95f955fb380
 
 .bg {
     position: fixed;

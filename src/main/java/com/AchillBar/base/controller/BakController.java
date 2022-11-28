@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.AchillBar.base.model.Comment;
@@ -23,7 +23,7 @@ import com.AchillBar.base.model.dao.memberDao;
 import com.AchillBar.base.service.CommentService;
 import com.AchillBar.base.service.bookingService;
 
-@RestController
+@Controller
 @RequestMapping("/bak")
 @SessionAttributes({"LoginOK"})
 public class BakController {
@@ -66,15 +66,15 @@ public class BakController {
 
     
     @GetMapping("/comment/delete/{com_id}")
-    public String delByManger(@PathVariable Long com_id, Model model) {
+    public  String  delByManger(@PathVariable Long com_id) {
 
-        Comment res = cDao.findByC_id(com_id);
+       Comment res = cDao.findByC_id(com_id);
 
         if (res != null) {
             cService.deleteById(com_id);
-            return "刪除成功";
+            return "redirect:/bak/comm";
         } else {
-            return "查無評論";
+            return "redirect:/bak/comm";
         }
     }
 

@@ -2,6 +2,7 @@ package com.AchillBar.base.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,7 @@ import com.AchillBar.base.model.dao.OrderDetailDao;
 import com.AchillBar.base.model.dao.ProductDao;
 import com.AchillBar.base.model.dao.ShopCartDao;
 import com.AchillBar.base.service.OrderService;
+import com.AchillBar.base.service.bookingService;
 
 @Controller
 @RequestMapping("/bak/order")
@@ -53,6 +56,9 @@ public class BakOrderCotroller {
 
     @Autowired
     OrderService oService;
+     
+    @Autowired
+    bookingService bserivce;
 
     @ResponseBody
     @GetMapping("/all")
@@ -260,5 +266,14 @@ public class BakOrderCotroller {
         model.addAttribute("product", presult);
         return "WMS/detail.jsp";
     }
-
+    @ResponseBody
+    @GetMapping("/groupbyBookDate")
+    public List<Map<String, Date>> orderdate() {
+        return bDao.groupbybookdate();
+    }
+    @ResponseBody
+    @GetMapping("/findbyBookDate/{BookDate}")
+    public List<Booking> findByBookDate(@PathVariable("BookDate") @DateTimeFormat(pattern = "yyyy-MM-dd")Date date) {
+        return bDao.findbydate(date);
+    }
 }

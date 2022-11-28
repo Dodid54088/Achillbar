@@ -1,9 +1,14 @@
         package com.AchillBar.base.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.AchillBar.base.model.memberModel;
@@ -53,7 +58,8 @@ public class memberService {
 		return mDao.findByEmail(email);
 	}
 	
-	public List<memberModel> findAllCustomer(){
-	    return mDao.findAllCustomer();
+	public Page<memberModel> findAllCustomer(Integer pageNumber){
+	    Pageable pgb =  PageRequest.of(pageNumber-1, 2, Sort.Direction.ASC, "m_id");
+	    return mDao.findAllCustomer(pgb);
 	}
 }

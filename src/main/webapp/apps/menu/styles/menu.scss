@@ -275,15 +275,18 @@ $pageColor: rgba(101, 102, 104, 0.3);
                         }
                     }
                 }
-                .tagBox-con{
+
+                .tagBox-con {
                     padding-right: 1.5rem;
+
                     .tagBox {
                         overflow: hidden;
                         white-space: nowrap;
                         height: 100%;
                         display: flex;
-                        align-items:flex-end;
-                        .tag{
+                        align-items: flex-end;
+
+                        .tag {
                             font-size: 0.8rem;
                         }
                     }
@@ -327,7 +330,7 @@ $pageColor: rgba(101, 102, 104, 0.3);
     #bigCard {
         .bi-arrow-left {
             &:hover {
-                animation:arror 0.5s infinite ease-out alternate ;
+                animation: arror 0.5s infinite ease-out alternate;
                 color: rgb(229, 229, 229);
             }
         }

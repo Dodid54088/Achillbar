@@ -24,7 +24,7 @@
                 <label for="floatingInput">電子信箱</label>
                 <span id="emailerr"></span>
               </div>
-              <button id="emailinfo" class="btn btn-dark">送出</button>
+              <button id="emailinfo" class="btn btn-dark">送出</button><span id="sendinfo"></span>
             </div>
           </div>
 
@@ -45,26 +45,42 @@
       <script>
         $("#emailinfo").click(function () {
           let emailText = $('#floatingInput').val();
+          $('#emailerr').text('');
+          $(this).attr('disabled', "");
+          $('#sendinfo').text('等待60秒後可重新送出驗證碼').css('color', 'red');
+          setTimeout(function () {
+            $('#emailinfo').removeAttr('disabled');
+            $('#sendinfo').text('');
+          }, 60000);
           $.ajax({
             url: '/sendVerify',
             method: 'post',
             data: { "email": emailText },
             success: function (result) {
-            	if(result.sendOK != null){
-	              	$('#emailerr').text(result.sendOK).css('color', 'green');
-            	}else if(result.sendFail != null){
-            		$('#emailerr').text(result.sandFail).css('color', 'red');
-            	}else if(result.emailError != null){
-            		$('#emailerr').text(result.emailError).css('color', 'red');
-            	}else{
-            		$('#emailerr').text(result.unexpectError).css('color', 'red');
-            	}
+              if (result.sendOK != null) {
+                $('#emailerr').text(result.sendOK).css('color', 'green');
+
+              } else if (result.sendFail != null) {
+                $('#emailerr').text(result.sandFail).css('color', 'red');
+                $('#emailinfo').removeAttr('disabled');
+                $('#sendinfo').text('');
+              } else if (result.emailError != null) {
+                $('#emailerr').text(result.emailError).css('color', 'red');
+                $('#emailinfo').removeAttr('disabled');
+                $('#sendinfo').text('');
+              } else {
+                $('#emailerr').text(result.unexpectError).css('color', 'red');
+                $('#emailinfo').removeAttr('disabled');
+                $('#sendinfo').text('');
+              }
             },
             error: function () {
               $('#emailerr').text("送出失敗").css('color', 'red');
             }
           })
-        })
+
+        }
+        )
 
         $("#vbtn").click(function () {
           let val = $('#verify').val();
