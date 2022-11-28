@@ -7,7 +7,7 @@
     2. 後臺訂單管理  
      
 ## 小組專題影片介紹連結:  
-    https://drive.google.com/drive/folders/1Zv_x2g540_yTdS-nDEyOHIDPx52nbrP9?usp=share_link   
+    https://www.youtube.com/watch?v=Eh5mO2IL3eY  負責項目在 15:33開始
       
         
         
